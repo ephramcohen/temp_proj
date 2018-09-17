@@ -15,3 +15,7 @@ change ordering of when sample data is requested and read so that the delay for 
 Minor code cleanup
 
 add a TODO list
+
+V 1.0.3
+
+get rid of references to blinky, and replace them with the actual project name nano2_ble_temp

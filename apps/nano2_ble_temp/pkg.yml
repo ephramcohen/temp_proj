@@ -17,7 +17,7 @@
 # under the License.
 #
 
-pkg.name: apps/blinky
+pkg.name: apps/nano2_ble_temp
 pkg.type: app
 pkg.description: BLE peripheral temperature sensor w/history.
 pkg.author: "Ephram Cohen"

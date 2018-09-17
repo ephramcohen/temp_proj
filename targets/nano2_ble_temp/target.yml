@@ -1,3 +1,3 @@
-target.app: "apps/blinky"
+target.app: "apps/nano2_ble_temp"
 target.bsp: "@apache-mynewt-core/hw/bsp/rb-nano2"
 target.build_profile: "debug"
