@@ -21,6 +21,7 @@ project.name: "temp_proj"
 
 project.repositories:
     - apache-mynewt-core
+    - apache-mynewt-nimble
 
 # Use github's distribution mechanism for core ASF libraries.
 # This provides mirroring automatically for us.
@@ -30,3 +31,9 @@ repository.apache-mynewt-core:
     vers: 1.4.1
     user: apache
     repo: mynewt-core
+
+repository.apache-mynewt-nimble:
+    type: github
+    vers: 1.0.0
+    user: apache
+    repo: mynewt-nimble
