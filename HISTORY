@@ -19,3 +19,8 @@ add a TODO list
 V 1.0.3
 
 get rid of references to blinky, and replace them with the actual project name nano2_ble_temp
+
+V 1.0.4
+
+add a compiler switch to control weather temperature reading happens always, or only when connected to.
+add some logging (SAMPLING_TYPE_CONNECTED in ble_temp_sens.h)

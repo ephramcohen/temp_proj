@@ -113,6 +113,13 @@ ble_temp_gap_event(struct ble_gap_event *event, void *arg)
             /* Connection failed; resume advertising */
             ble_temp_advertise();
         }
+#ifdef SAMPLING_TYPE_CONNECTED
+        else
+        {
+            /* init and start the timer for temperature reading */
+            temp_reader_init();
+        }
+#endif
         break;
 
     case BLE_GAP_EVENT_DISCONNECT:
@@ -120,6 +127,10 @@ ble_temp_gap_event(struct ble_gap_event *event, void *arg)
 
         /* Connection terminated; resume advertising */
         ble_temp_advertise();
+
+#ifdef SAMPLING_TYPE_CONNECTED
+        stop_temp_read();
+#endif
         break;
 
     case BLE_GAP_EVENT_ADV_COMPLETE:
@@ -186,8 +197,10 @@ main(void)
     /* Prepare the internal temperature module for measurement */
     nrf_temp_init();
 
+#ifndef SAMPLING_TYPE_CONNECTED
     /* init and start the timer for temperature reading */
     temp_reader_init();
+#endif
 
     /* As the last thing, process events from default event queue */
     while (1) {

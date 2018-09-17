@@ -90,7 +90,7 @@ get_temp_measurement(void)
   return temp;
 }
 
-/* Reset temperature timer for 100 msec*/
+/* Reset temperature reading timer */
 static void
 queue_temp_read(void)
 {
@@ -99,6 +99,14 @@ queue_temp_read(void)
     /* queue the next timer read */
     rc = os_callout_reset(&temp_read_timer, OS_TICKS_PER_SEC/TEMP_SAMPLING_RATE);
     assert(rc == 0);
+}
+
+/* stop the temperature reading timer */
+void
+stop_temp_read(void)
+{
+  LOG(INFO,"Temperature reader stop\n");
+  os_callout_stop(&temp_read_timer);
 }
 
 /* This functions reads the temperature into a circular buffer */
@@ -124,8 +132,11 @@ temp_read(struct os_event *ev)
 void
 temp_reader_init(void)
 {
+  LOG(INFO,"Temperature reader init\n");
 
+  /* reset temperature history state var's */
    temp_queue_head = 0;
+   memset ((void*)temp_history, 0, sizeof(temp_history));
 
    /* Now setup a 100 msec timer to sample the temperature */ 
     os_callout_init(&temp_read_timer, os_eventq_dflt_get(),
