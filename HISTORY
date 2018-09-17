@@ -8,3 +8,10 @@ V 1.0.1
 Minor modifications to documentation
 
 
+V 1.0.2
+
+change ordering of when sample data is requested and read so that the delay for sampling data happens during the 100 msec inter-sample-interval
+
+Minor code cleanup
+
+add a TODO list

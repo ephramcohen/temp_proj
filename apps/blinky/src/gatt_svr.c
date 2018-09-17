@@ -29,6 +29,9 @@
 /* temperature history buffer size.  (power of 2 please) */
 #define TEMP_HIST_SIZE (16)
 
+#define TEMP_SAMPLING_RATE (10)  /* in Hz */
+
+
 /* 5c3a659e-897e-45e1-b016-007107c96df6 */
 static const ble_uuid128_t gatt_svr_svc_temp_uuid =
         BLE_UUID128_INIT(0xf6, 0x6d, 0xc9, 0x07, 0x71, 0x00, 0x16, 0xb0,
@@ -69,20 +72,22 @@ static struct os_callout temp_read_timer;
 volatile static int temp_queue_head;
 volatile static int16_t temp_history[TEMP_HIST_SIZE];
 
-
 /* Returns the internal temperature of the nRF52 in degC (2 decimal places, scaled) */
 static int16_t
 get_temp_measurement(void)
 {
   int16_t temp;
-  /* Start the temperature measurement. */
-  NRF_TEMP->TASKS_START = 1;
+
+  /* make sure that he last temperature read is complete */
   while(NRF_TEMP->EVENTS_DATARDY != TEMP_INTENSET_DATARDY_Set) {};
+
   /* Temp reading is in units of 0.25degC so divide by 4 to get in units of degC (scale by 100 to avoid representing as decimal) */
   temp = (nrf_temp_read() * 100) / 4.0;
 
-  return temp;
+  /* Start the next temperature measurement. */
+  NRF_TEMP->TASKS_START = 1;
 
+  return temp;
 }
 
 /* Reset temperature timer for 100 msec*/
@@ -91,8 +96,8 @@ queue_temp_read(void)
 {
     int rc;
 
-    /* queue the next timer read in 100 msec */
-    rc = os_callout_reset(&temp_read_timer, OS_TICKS_PER_SEC/10);
+    /* queue the next timer read */
+    rc = os_callout_reset(&temp_read_timer, OS_TICKS_PER_SEC/TEMP_SAMPLING_RATE);
     assert(rc == 0);
 }
 
@@ -126,8 +131,12 @@ temp_reader_init(void)
     os_callout_init(&temp_read_timer, os_eventq_dflt_get(),
                     temp_read, NULL);
 
-    /* start the ball rolling */
+    /* start the timer ticking */
     queue_temp_read();
+
+    /* Start the temperature measurement. */
+    NRF_TEMP->TASKS_START = 1;
+
 }
 
 static int

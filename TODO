@@ -1,0 +1,9 @@
+Things to add
+
+add a build script for the project.  app target should include automatic versioning.
+
+add a version number methodology.  This should include
+  An internal mechanism for the version number
+  A way for the build script to incorporate the version number into the build
+
+    
