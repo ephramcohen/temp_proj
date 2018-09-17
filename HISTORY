@@ -1,12 +1,11 @@
-V 1.0.0
+V 1.0.4
 
-Create new project from scratch, and bring in changes from mynewt_proj from Proxy (https://github.com/lance-proxy/mynewt_proj).
-Modify the charachteristic read to read the last ten samples of temperature data.
+add a compiler switch to control weather temperature reading happens always, or only when connected to. (SAMPLING_TYPE_CONNECTED in ble_temp_sens.h)
+add some logging 
 
-V 1.0.1
+V 1.0.3
 
-Minor modifications to documentation
-
+get rid of references to blinky, and replace them with the actual project name nano2_ble_temp
 
 V 1.0.2
 
@@ -16,6 +15,12 @@ Minor code cleanup
 
 add a TODO list
 
-V 1.0.3
+V 1.0.1
 
-get rid of references to blinky, and replace them with the actual project name nano2_ble_temp
+Minor modifications to documentation
+
+V 1.0.0
+
+Create new project from scratch, and bring in changes from mynewt_proj from Proxy (https://github.com/lance-proxy/mynewt_proj).
+Modify the charachteristic read to read the last ten samples of temperature data.
+

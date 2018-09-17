@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+#define SAMPLING_TYPE_CONNECTED
+
 extern struct log logger;
 
 /* blehr uses the first "peruser" log module */
@@ -39,6 +41,7 @@ extern struct log logger;
 int gatt_svr_init(void);
 
 void temp_reader_init(void);
+void stop_temp_read(void);
 
 #ifdef __cplusplus
 }
